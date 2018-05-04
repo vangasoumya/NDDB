@@ -1,0 +1,1447 @@
+
+<head>
+	<!--Import Google Icon Font-->
+  <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Varela+Round" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/cytoscape/3.2.4/cytoscape.min.js"></script>
+  <script src="http://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.2/modernizr.js"></script>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Neurodegeneration Hub</title>
+</head>
+
+<body style="background-color:#ffffff">
+  <div class="se-pre-con"></div>
+  <nav>
+	  <div class="nav-wrapper">
+		  <a class="brand-logo center" style="color:#fff;font-weight:bold; font-size:150%;">Neurodegeneration Hub</a>
+		  <!--<a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons" style="color:#FFFFFF;">menu</i></a>-->
+		  <!--<ul class="left hide-on-med-and-down">
+			  <li><span class="dropdown-button btn" href='#' data-activates='dropdown1'>ATXN1->FRIEDRIECH ATAXIA</span></li>
+		  </ul>-->
+		  <!--<ul id="dropdown1" class="dropdown-content">
+			  <li><div *ngFor = "let gene of genediseasepair">{{gene.genesymbol}}->{{gene.diseasename}}</div></li>		
+		  </ul>-->
+		  <ul class="right">
+			  <li><a href="http://localhost:4200/search"><i class="material-icons">search</i></a></li>
+		  </ul>
+		  <ul class="left">
+			  <li><a style="float:left" *ngIf="!authService.loggedIn()" (click) = "onLoginClick()"><i class="material-icons">perm_identity</i></a></li>
+			  <li><a style="position: relative;" *ngIf="authService.loggedIn()" (click) = "onLogoutClick()"><i class="material-icons">exit_to_app</i></a></li>
+		  </ul>
+		  <!--<ul class="side-nav" id="mobile-demo" style="color:#000000;">
+			  <div *ngFor = "let gene of disease"><span style="font-size: medium;">&nbsp;&nbsp;&nbsp;{{gene.genename}}->{{gene.diseasename}}</span></div>
+		  </ul>-->
+	  </div>
+  </nav>
+  
+  
+  <div class = "row">
+	  <div class = "col l2">
+
+	  </div>
+	  <div class = "col l8 s12" style="text-align:center">
+
+	  
+		  <a class='dropdown-button btn' data-activates='dropdown1'><p>{{displaygenediseasepair.displaygenesymbol}}->{{displaygenediseasepair.displaydiseasename}}</p></a>
+
+		  <!-- Dropdown Structure -->
+		  <ul id='dropdown1' class='dropdown-content'>
+			  <li *ngFor = "let new of genediseasepair" (click)="changeContent(new.genesymbol, new.diseasename, new.searchelement)"><a>{{new.genesymbol}}->{{new.diseasename}}</a></li>
+		   <!-- <li><a href="#!">one</a></li>
+			<li><a href="#!">two</a></li>
+			<li class="divider"></li>
+			<li><a href="#!">three</a></li>
+			<li><a href="#!"><i class="material-icons">view_module</i>four</a></li>
+			<li><a href="#!"><i class="material-icons">cloud</i>five</a></li>-->
+		  </ul>
+	  </div>
+	  <div class = "col l2">
+
+	  </div>
+  </div>
+  
+
+  <div class="row">
+	  <ul id="tabs-swipe-demo" class="tabs">
+		  <li class="tab col l2"><a href="#test-swipe-1"><b>Disease Profile</b></a></li>
+		  <li class="tab col l2"><a href="#test-swipe-2"><b>Disease Mechanism</b></a></li>
+		  <li class="tab col l2"><a href="#test-swipe-3"><b>Pathogenic Variants</b></a></li>
+		  <li class="tab col l2"><a href="#test-swipe-4"><b>Modifiers</b></a></li>
+		  <li class="tab col l2"><a href="#test-swipe-5" id="mouse" (click)="placetab()"><b>Animal Models</b></a></li>
+		  <li class="tab col l2"><a href="#test-swipe-6"><b>References</b></a></li>
+	  </ul>
+  </div>
+  
+  <div id="test-swipe-1" class="col l12 s12">
+	  <div class = "row">
+		  <div class = "col l1">
+		  </div>
+
+		  <div class ="col l10 s12">
+			  <ul class="collection">
+				  <li class="collection-item avatar">
+					  <i class="material-icons circle red">perm_identity</i><span class="title"><b>DISEASE NAME</b></span>
+				  
+					  <div class= "diseasename" *ngFor = "let gene of disease">
+						   
+						   <p>{{gene.diseasename}}</p>
+
+						</div> 
+						
+					  <!--<p><a href="javascript:;" (click)='navigate()'>Click Here</a></p>-->
+					  
+						
+				  </li>
+				  <li class="collection-item avatar">
+					  <i class="material-icons circle green">call_split</i><span class="title"><b>DISEASE TYPE</b></span>
+					  <div *ngFor = "let gene of disease">
+						  <p>{{gene.diseasetype}}</p>
+					  </div>
+				  </li>
+
+
+				  <li class="collection-item avatar">
+					  <i class="material-icons circle orange">assignment</i><span class="title"><b>DISEASE ALIAS</b></span>
+					  
+					  <a class="btn-floating btn-medium waves-effect waves-light red btn modal-trigger" style="float:right" (click)="checkIfLogged_diseasealiasmodal()"><i class="material-icons">create</i></a>
+					  
+				  <!--<div class="disease-alias" *ngFor = "let eachdiseasealias of outputdiseasealias">
+						  <p [innerHTML]="eachdiseasealias | safeHtml"></p>							
+					  </div>-->
+					  <div class= "disease-alias">
+						  <!--<div class="alias"></div>-->
+					  </div>
+					  
+					  <div id="diseasealiasmodal" class="modal">
+						  <div class="modal-content">
+							  <ul class="collapsible popout" data-collapsible="accordion">
+								  <li>
+									  <div class="collapsible-header" (click)="gettext('diseasealias')"><i class="material-icons">assignment</i>Edit Content</div>
+										  <div class="collapsible-body" >
+											  <h4>Disease Alias</h4>
+											  
+										  
+											  <div class="row">
+												  <form class="col s12">
+													  <div class="row">
+														  <div class="input-field col s12">
+															  <textarea id="diseasealiastextarea" class="materialize-textarea" (click)="resize('diseasealias')"  [(ngModel)]="diseasealiasedit" [ngModelOptions]="{standalone: true}"></textarea> 
+														  </div>
+													  </div>
+												  </form>
+											  </div>
+  
+											  <div class="modal-footer">
+												  <a class="modal-action modal-close waves-effect waves-green btn-flat">Cancel</a>
+												  <a class="modal-action modal-close waves-effect waves-green btn-flat" (click) = "savetext(diseasealiasedit,'diseasealias')">Save</a>
+											  </div>
+										  </div>
+								  </li>
+							  </ul>
+						  </div>
+					  </div>
+				  </li>
+	  
+
+
+
+
+				  <!-- DISEASE SUMMARY -->
+				  <li class="collection-item avatar">
+					  <i class="material-icons circle blue">description</i>
+					  <span class="title"><b>DISEASE SUMMARY</b> 
+						  <a class="btn-floating btn-medium waves-effect waves-light red btn modal-trigger" style="float:right" (click)="checkIfLogged_diseasesummarymodal()" ><i class="material-icons">create</i></a>     	
+					  </span> 	
+					  <div>
+						  <br>	
+											
+						  <!--<div class="disease-summary" *ngFor = "let eachdiseasesummary of outputdiseasesummary" style="text-align:justify">
+							  
+							  {{eachdiseasesummary}}
+							  
+							  
+						  </div>-->
+						  <div class = "disease-summary">
+							  
+						  </div>
+					  </div>
+					  <br>
+					  
+					  <!-- Modal Structure -->
+					  <div id="diseasesummarymodal" class="modal">
+						  <div class="modal-content">
+							  <ul class="collapsible popout" data-collapsible="accordion">
+								  <li>
+									  <div class="collapsible-header" id="disease_summary_collapsible" (click)="gettext('diseasesummary')"><i class="material-icons">assignment</i>Edit Content</div>
+										  <div class="collapsible-body" >
+											  <h4>Disease Summary</h4>
+											  
+										  
+											  <div class="row">
+												  <form class="col s12">
+													  <div class="row">
+														  <div class="input-field col s12">
+															  <textarea id="diseasesummarytextarea" class="materialize-textarea"  [(ngModel)]="diseasesummaryedit" [ngModelOptions]="{standalone: true}"></textarea> 
+														  </div>
+													  </div>
+												  </form>
+											  </div>
+
+											  <div class="modal-footer">
+												  <a class="modal-action modal-close waves-effect waves-green btn-flat">Cancel</a>
+												  <a class="modal-action modal-close waves-effect waves-green btn-flat" (click) = "savetext(diseasesummaryedit,'diseasesummary')">Save</a>
+											  </div>
+										  </div>
+								  </li>
+							  <!--	<li>
+									  <div class="collapsible-header" (click)="getsources('diseasesummary')"><i class="material-icons">attach_file</i>Edit Sources</div>
+										  <div class="collapsible-body">
+										  <br>
+											  <div class="row">
+												  <form class="col s12">
+													  <div class="row">
+														  <div class="input-field col s6">
+															  <input placeholder="Type the text to be displayed" id="diseasesummarytext1" type="text" [(ngModel)]="text1edit" [ngModelOptions]="{standalone: true}">
+														  </div>
+														  <div class="input-field col s6">
+															  <input placeholder="Paste the link" id="diseasesummarylink1" type="text" [(ngModel)]="link1edit" [ngModelOptions]="{standalone: true}">
+														  </div>
+													  </div>
+												  </form>
+											  </div>
+
+											  <div class="row">
+												  <form class="col s12">
+													  <div class="row">
+														  <div class="input-field col s6">
+															  <input placeholder="Type the the to be displayed" id="diseasesummarytext2" type="text" class="validate">
+														  </div>
+														  <div class="input-field col s6">
+														  <input placeholder="Paste the link" id="diseasesummarylink2" type="text" class="validate">
+														  </div>
+													  </div>
+												  </form>
+											  </div>
+
+											  <div class="row">
+												  <form class="col s12">
+													  <div class="row">
+														  <div class="input-field col s6">
+															  <input placeholder="Type the the to be displayed" id="diseasesummarytext3" type="text" class="validate">
+														  </div>
+														  <div class="input-field col s6">
+															  <input placeholder="Paste the link" id="diseasesummarylink3" type="text" class="validate">
+														  </div>
+													  </div>
+												  </form>
+											  </div>
+									  
+											  <div class="modal-footer">
+												  <a class="modal-action modal-close waves-effect waves-green btn-flat">Cancel</a>
+												  <a class="modal-action modal-close waves-effect waves-green btn-flat" (click) = "savesources('diseasesummary')">Save</a>
+											  </div>
+										  </div>
+								  </li>	-->
+							  </ul>
+						  </div>
+					  </div>
+					  <!-- SOURCES -->
+					  <!--<ul class="collapsible" data-collapsible="accordion">
+						  <li>
+							  <div class="collapsible-header" (click)="displaysources('diseasesummary')"><i class="material-icons">filter_drama</i>Sources</div>
+							  <div class="collapsible-body" id="diseasesummarylinks">
+								  <ul>
+									  <li id="diseasesummaryconverted_url1"></li>
+									  <li id="diseasesummaryconverted_url2"></li>
+									  <li id="diseasesummaryconverted_url3"></li>
+								  </ul>
+							  </div>
+						  </li>
+					  </ul>-->
+				  </li>
+
+				  <!--PREVALENCE-->
+
+				  <li class="collection-item avatar">
+					  <i class="material-icons circle purple">supervisor_account</i>
+					  <span class="title"><b>PREVALENCE</b>
+						  <a class="btn-floating btn-medium waves-effect waves-light red btn modal-trigger" style="float:right" (click)="checkIfLogged_prevalencemodal()" ><i class="material-icons">create</i></a>
+					  </span>
+					  <div>
+					  <br>
+					  <div class="prevalence">
+						  
+						  <!--<p *ngFor = "let eachprevalence of outputprevalence">{{eachprevalence}}</p>-->
+					  </div>
+					  </div>
+					  <br>
+					  <!--MODAL STRUCTURE -->
+					  <div id="prevalencemodal" class="modal">
+						  <div class="modal-content">
+							  <ul class="collapsible popout" data-collapsible="accordion">
+								  <li>
+									  <div class="collapsible-header" (click)="gettext('prevalence')"><i class="material-icons">assignment</i>Edit Content</div>
+										  <div class="collapsible-body">
+											  <h4>Prevalence</h4>
+											  
+										  
+											  <div class="row">
+												  <form class="col s12">
+													  <div class="row">
+														  <div class="input-field col s12">
+															  <textarea id="prevalencetextarea" class="materialize-textarea"  [(ngModel)]="prevalenceedit" [ngModelOptions]="{standalone: true}"></textarea> 
+														  </div>
+													  </div>
+												  </form>
+											  </div>
+
+											  <div class="modal-footer">
+												  <a class="modal-action modal-close waves-effect waves-green btn-flat">Cancel</a>
+												  <a class="modal-action modal-close waves-effect waves-green btn-flat" (click) = "savetext(prevalenceedit,'prevalence')">Save</a>
+											  </div>
+										  </div>
+								  </li>
+							  <!--	<li>
+									  <div class="collapsible-header" (click)="getsources('prevalence')"><i class="material-icons">attach_file</i>Edit Sources</div>
+										  <div class="collapsible-body">
+										  <br>
+											  <div class="row">
+												  <form class="col s12">
+													  <div class="row">
+														  <div class="input-field col s6">
+															  <input placeholder="Type the text to be displayed" id="prevalencetext1" type="text" [(ngModel)]="text1edit" [ngModelOptions]="{standalone: true}">
+														  </div>
+														  <div class="input-field col s6">
+															  <input placeholder="Paste the link" id="prevalencelink1" type="text" [(ngModel)]="link1edit" [ngModelOptions]="{standalone: true}">
+														  </div>
+													  </div>
+												  </form>
+											  </div>
+
+											  <div class="row">
+												  <form class="col s12">
+													  <div class="row">
+														  <div class="input-field col s6">
+															  <input placeholder="Type the the to be displayed" id="prevalencetext2" type="text" class="validate">
+														  </div>
+														  <div class="input-field col s6">
+														  <input placeholder="Paste the link" id="prevalencelink2" type="text" class="validate">
+														  </div>
+													  </div>
+												  </form>
+											  </div>
+
+											  <div class="row">
+												  <form class="col s12">
+													  <div class="row">
+														  <div class="input-field col s6">
+															  <input placeholder="Type the the to be displayed" id="prevalencetext3" type="text" class="validate">
+														  </div>
+														  <div class="input-field col s6">
+															  <input placeholder="Paste the link" id="prevalencelink3" type="text" class="validate">
+														  </div>
+													  </div>
+												  </form>
+											  </div>
+									  
+											  <div class="modal-footer">
+												  <a class="modal-action modal-close waves-effect waves-green btn-flat">Cancel</a>
+												  <a class="modal-action modal-close waves-effect waves-green btn-flat" (click) = "savesources('prevalence')">Save</a>
+											  </div>
+										  </div>
+								  </li>	-->
+							  </ul>
+						  </div>
+					  </div>
+					  <!-- SOURCES-->
+					  <!--<ul class="collapsible" data-collapsible="accordion">
+						  <li>
+							  <div class="collapsible-header" (click)="displaysources('prevalence')"><i class="material-icons">filter_drama</i>Sources</div>
+							  <div class="collapsible-body">
+								  <ul>
+									  <li id="prevalenceconverted_url1"></li>
+									  <li id="prevalenceconverted_url2"></li>
+									  <li id="prevalenceconverted_url3"></li>
+								  </ul>
+							  </div>
+						  </li>
+					  </ul>-->
+				  </li>		
+			  </ul>
+		  </div>
+		  <div class = "col l1">
+		  </div>
+	  </div>	
+  </div>	
+	
+  <div id="test-swipe-2" class="col l12 s12">
+	  <div class = "row">
+		  <div class = "col l1">
+		  </div>
+		  <div class ="col l10 s12">
+			  <ul class="collection">
+				  <li class="collection-item avatar">
+					  <i class="material-icons circle red">perm_identity</i><span class="title"><b>GENE SYMBOL</b></span>
+					  <div *ngFor = "let gene of disease">
+							<p>{{gene.genesymbol}}</p>
+					  </div>
+				  </li>
+
+				  <li class="collection-item avatar">
+					  <i class="material-icons circle red">perm_identity</i><span class="title"><b>GENE NAME</b></span>
+					  <div *ngFor = "let gene of disease">
+							<p>{{gene.genename}}</p>
+					  </div>
+				  </li>
+
+
+				  <li class="collection-item avatar">
+					  <i class="material-icons circle orange">call_split</i><span class="title"><b>GENE ALIAS</b></span>
+					  
+					  <!--<a class="btn-floating btn-medium waves-effect waves-light red btn modal-trigger" style="float:right" data-target="" ><i class="material-icons">create</i></a>-->
+				  
+					  <p>{{finalgenealias}}</p>
+				  </li>
+				  
+				  <!-- GENE MUTATION-->
+				  <li class="collection-item avatar">
+					  <i class="material-icons circle green">polymer</i>
+					  <span class="title"><b>MUTATION</b>
+						  <a class="btn-floating btn-medium waves-effect waves-light red btn modal-trigger" style="float:right" (click)="checkIfLogged_mutationmodal()" ><i class="material-icons">create</i></a>
+					  </span>
+					  <div>
+					  <br>
+					  <div class = "mutation">
+						  
+						  <!--<p *ngFor = "let eachmutation of outputmutation">{{eachmutation}}</p>-->
+					  </div>
+					  </div>
+					  <br>
+					  
+					  <!-- Modal Structure -->
+					  <div id="mutationmodal" class="modal">
+						  <div class="modal-content">
+							  <ul class="collapsible popout" data-collapsible="accordion">
+								  <li>
+									  <div class="collapsible-header" (click)="gettext('mutation')"><i class="material-icons">assignment</i>Edit Content</div>
+										  <div class="collapsible-body">
+											  <h4>Mutation</h4>
+											  
+										  
+											  <div class="row">
+												  <form class="col s12">
+													  <div class="row">
+														  <div class="input-field col s12">
+															  <textarea id="mutationtextarea" class="materialize-textarea"  [(ngModel)]="mutationedit" [ngModelOptions]="{standalone: true}"></textarea> 
+														  </div>
+													  </div>
+												  </form>
+											  </div>
+
+											  <div class="modal-footer">
+												  <a class="modal-action modal-close waves-effect waves-green btn-flat">Cancel</a>
+												  <a class="modal-action modal-close waves-effect waves-green btn-flat" (click) = "savetext(mutationedit,'mutation')">Save</a>
+											  </div>
+										  </div>
+								  </li>
+								  <!--<li>
+									  <div class="collapsible-header" (click)="getsources('mutation')"><i class="material-icons">attach_file</i>Edit Sources</div>
+										  <div class="collapsible-body">
+										  <br>
+											  <div class="row">
+												  <form class="col s12">
+													  <div class="row">
+														  <div class="input-field col s6">
+															  <input placeholder="Type the text to be displayed" id="mutationtext1" type="text" [(ngModel)]="text1edit" [ngModelOptions]="{standalone: true}">
+														  </div>
+														  <div class="input-field col s6">
+															  <input placeholder="Paste the link" id="mutationlink1" type="text" [(ngModel)]="link1edit" [ngModelOptions]="{standalone: true}">
+														  </div>
+													  </div>
+												  </form>
+											  </div>
+
+											  <div class="row">
+												  <form class="col s12">
+													  <div class="row">
+														  <div class="input-field col s6">
+															  <input placeholder="Type the the to be displayed" id="mutationtext2" type="text" class="validate">
+														  </div>
+														  <div class="input-field col s6">
+														  <input placeholder="Paste the link" id="mutationlink2" type="text" class="validate">
+														  </div>
+													  </div>
+												  </form>
+											  </div>
+
+											  <div class="row">
+												  <form class="col s12">
+													  <div class="row">
+														  <div class="input-field col s6">
+															  <input placeholder="Type the the to be displayed" id="mutationtext3" type="text" class="validate">
+														  </div>
+														  <div class="input-field col s6">
+															  <input placeholder="Paste the link" id="mutationlink3" type="text" class="validate">
+														  </div>
+													  </div>
+												  </form>
+											  </div>
+									  
+											  <div class="modal-footer">
+												  <a class="modal-action modal-close waves-effect waves-green btn-flat">Cancel</a>
+												  <a class="modal-action modal-close waves-effect waves-green btn-flat" (click) = "savesources('mutation')">Save</a>
+											  </div>
+										  </div>
+								  </li>	-->
+							  </ul>
+						  </div>
+					  </div>
+					  <!-- SOURCES -->
+					  <!--<ul class="collapsible" data-collapsible="accordion">
+						  <li>
+							  <div class="collapsible-header" (click)="displaysources('mutation')"><i class="material-icons">filter_drama</i>Sources</div>
+							  <div class="collapsible-body" id="mutationlinks">
+								  <ul>
+									  <li id="mutationconverted_url1"></li>
+									  <li id="mutationconverted_url2"></li>
+									  <li id="mutationconverted_url3"></li>
+								  </ul>
+							  </div>
+						  </li>
+					  </ul>-->
+
+
+
+
+
+
+				  </li>
+				  <li class="collection-item avatar">
+					  <i class="material-icons circle blue">dashboard</i>
+					  <span class="title"><b>PATTERN OF INHERITANCE</b>
+						  <a class="btn-floating btn-medium waves-effect waves-light red btn modal-trigger" style="float:right" (click)="checkIfLogged_inheritancemodal()" ><i class="material-icons">create</i></a>
+					  </span>
+					  <div>
+
+					  
+					  <br>
+					  <div class="inheritance">
+						  
+						  <!--<p  *ngFor = "let eachinheritance of outputinheritance">{{eachinheritance}}</p>-->
+					  </div>
+					  </div>
+
+
+					  <br>
+					  
+					  <!-- Modal Structure -->
+					  <div id="inheritancemodal" class="modal">
+						  <div class="modal-content">
+							  <ul class="collapsible popout" data-collapsible="accordion">
+								  <li>
+									  <div class="collapsible-header" (click)="gettext('inheritance')"><i class="material-icons">assignment</i>Edit Content</div>
+										  <div class="collapsible-body">
+											  <h4>Pattern of Inheritance</h4>
+											  
+										  
+											  <div class="row">
+												  <form class="col s12">
+													  <div class="row">
+														  <div class="input-field col s12">
+															  <textarea id="inheritancetextarea" class="materialize-textarea"  [(ngModel)]="inheritanceedit" [ngModelOptions]="{standalone: true}"></textarea> 
+														  </div>
+													  </div>
+												  </form>
+											  </div>
+
+											  <div class="modal-footer">
+												  <a class="modal-action modal-close waves-effect waves-green btn-flat">Cancel</a>
+												  <a class="modal-action modal-close waves-effect waves-green btn-flat" (click) = "savetext(inheritanceedit,'inheritance')">Save</a>
+											  </div>
+										  </div>
+								  </li>
+							  <!--	<li>
+									  <div class="collapsible-header" (click)="getsources('inheritance')"><i class="material-icons">attach_file</i>Edit Sources</div>
+										  <div class="collapsible-body">
+										  <br>
+											  <div class="row">
+												  <form class="col s12">
+													  <div class="row">
+														  <div class="input-field col s6">
+															  <input placeholder="Type the text to be displayed" id="inheritancetext1" type="text" [(ngModel)]="text1edit" [ngModelOptions]="{standalone: true}">
+														  </div>
+														  <div class="input-field col s6">
+															  <input placeholder="Paste the link" id="inheritancelink1" type="text" [(ngModel)]="link1edit" [ngModelOptions]="{standalone: true}">
+														  </div>
+													  </div>
+												  </form>
+											  </div>
+
+											  <div class="row">
+												  <form class="col s12">
+													  <div class="row">
+														  <div class="input-field col s6">
+															  <input placeholder="Type the the to be displayed" id="inheritancetext2" type="text" class="validate">
+														  </div>
+														  <div class="input-field col s6">
+														  <input placeholder="Paste the link" id="inheritancelink2" type="text" class="validate">
+														  </div>
+													  </div>
+												  </form>
+											  </div>
+
+											  <div class="row">
+												  <form class="col s12">
+													  <div class="row">
+														  <div class="input-field col s6">
+															  <input placeholder="Type the the to be displayed" id="inheritancetext3" type="text" class="validate">
+														  </div>
+														  <div class="input-field col s6">
+															  <input placeholder="Paste the link" id="inheritancelink3" type="text" class="validate">
+														  </div>
+													  </div>
+												  </form>
+											  </div>
+									  
+											  <div class="modal-footer">
+												  <a class="modal-action modal-close waves-effect waves-green btn-flat">Cancel</a>
+												  <a class="modal-action modal-close waves-effect waves-green btn-flat" (click) = "savesources('inheritance')">Save</a>
+											  </div>
+										  </div>
+								  </li>	-->
+							  </ul>
+						  </div>
+					  </div>
+					  <!-- SOURCES -->
+				  <!--	<ul class="collapsible" data-collapsible="accordion">
+						  <li>
+							  <div class="collapsible-header" (click)="displaysources('inheritance')"><i class="material-icons">filter_drama</i>Sources</div>
+							  <div class="collapsible-body" id="inheritancelinks">
+								  <ul>
+									  <li id="inheritanceconverted_url1"></li>
+									  <li id="inheritanceconverted_url2"></li>
+									  <li id="inheritanceconverted_url3"></li>
+								  </ul>
+							  </div>
+						  </li>
+					  </ul>-->
+
+
+
+
+
+					  </li>              
+				  <li class="collection-item avatar">
+					  <i class="material-icons circle amber">settings</i>
+					  <span class="title"><b>MECHANISM</b>
+						  <a class="btn-floating btn-medium waves-effect waves-light red btn modal-trigger" style="float:right" (click)="checkIfLogged_mechanismmodal()" ><i class="material-icons">create</i></a>
+					  </span>
+					  <div>
+					  <br>
+						<div class="mechanism">
+						  
+							<!--<p *ngFor = "let eachmechanism of outputmechanism">{{eachmechanism}}</p>-->
+					  </div>
+					  </div>
+
+
+					  <br>
+					  
+					  <!-- Modal Structure -->
+					  <div id="mechanismmodal" class="modal">
+						  <div class="modal-content">
+							  <ul class="collapsible popout" data-collapsible="accordion">
+								  <li>
+									  <div class="collapsible-header" (click)="gettext('mechanism')"><i class="material-icons">assignment</i>Edit Content</div>
+										  <div class="collapsible-body">
+											  <h4>Mechanism</h4>
+											  
+										  
+											  <div class="row">
+												  <form class="col s12">
+													  <div class="row">
+														  <div class="input-field col s12">
+															  <textarea id="mechanismtextarea" class="materialize-textarea"  [(ngModel)]="mechanismedit" [ngModelOptions]="{standalone: true}"></textarea> 
+														  </div>
+													  </div>
+												  </form>
+											  </div>
+
+											  <div class="modal-footer">
+												  <a class="modal-action modal-close waves-effect waves-green btn-flat">Cancel</a>
+												  <a class="modal-action modal-close waves-effect waves-green btn-flat" (click) = "savetext(mechanismedit,'mechanism')">Save</a>
+											  </div>
+										  </div>
+								  </li>
+							  <!--	<li>
+									  <div class="collapsible-header" (click)="getsources('mechanism')"><i class="material-icons">attach_file</i>Edit Sources</div>
+										  <div class="collapsible-body">
+										  <br>
+											  <div class="row">
+												  <form class="col s12">
+													  <div class="row">
+														  <div class="input-field col s6">
+															  <input placeholder="Type the text to be displayed" id="mechanismtext1" type="text" [(ngModel)]="text1edit" [ngModelOptions]="{standalone: true}">
+														  </div>
+														  <div class="input-field col s6">
+															  <input placeholder="Paste the link" id="mechanismlink1" type="text" [(ngModel)]="link1edit" [ngModelOptions]="{standalone: true}">
+														  </div>
+													  </div>
+												  </form>
+											  </div>
+
+											  <div class="row">
+												  <form class="col s12">
+													  <div class="row">
+														  <div class="input-field col s6">
+															  <input placeholder="Type the the to be displayed" id="mechanismtext2" type="text" class="validate">
+														  </div>
+														  <div class="input-field col s6">
+														  <input placeholder="Paste the link" id="mechanismlink2" type="text" class="validate">
+														  </div>
+													  </div>
+												  </form>
+											  </div>
+
+											  <div class="row">
+												  <form class="col s12">
+													  <div class="row">
+														  <div class="input-field col s6">
+															  <input placeholder="Type the the to be displayed" id="mechanismtext3" type="text" class="validate">
+														  </div>
+														  <div class="input-field col s6">
+															  <input placeholder="Paste the link" id="mechanismlink3" type="text" class="validate">
+														  </div>
+													  </div>
+												  </form>
+											  </div>
+									  
+											  <div class="modal-footer">
+												  <a class="modal-action modal-close waves-effect waves-green btn-flat">Cancel</a>
+												  <a class="modal-action modal-close waves-effect waves-green btn-flat" (click) = "savesources('mechanism')">Save</a>
+											  </div>
+										  </div>
+								  </li>	-->
+							  </ul>
+						  </div>
+					  </div>
+					  <!-- SOURCES -->
+				  <!--	<ul class="collapsible" data-collapsible="accordion">
+						  <li>
+							  <div class="collapsible-header" (click)="displaysources('mechanism')"><i class="material-icons">filter_drama</i>Sources</div>
+							  <div class="collapsible-body" id="mechanismlinks">
+								  <ul>
+									  <li id="mechanismconverted_url1"></li>
+									  <li id="mechanismconverted_url2"></li>
+									  <li id="mechanismconverted_url3"></li>
+								  </ul>
+							  </div>
+						  </li>
+					  </ul>-->
+						
+
+
+
+
+
+					</li>		  
+				  <li class="collection-item avatar">
+					  <i class="material-icons circle purple">assignment</i>
+					  <span class="title"><b>MOLECULAR FUNCTION</b>
+						  <a class="btn-floating btn-medium waves-effect waves-light red btn modal-trigger" style="float:right" (click)="checkIfLogged_molecularfunctionmodal()" ><i class="material-icons">create</i></a>
+					  </span>
+					  <div>
+
+					  
+					  <br>
+					  <div class="molecular-function">
+						  
+						  <!--<p *ngFor = "let eachmolecularfunction of outputmolecularfunction">{{eachmolecularfunction}}</p>-->
+						  <!--<br ng-if="!each">-->
+					  </div>
+
+					  </div>
+
+					  <br>
+					  
+					  <!-- Modal Structure -->
+					  <div id="molecularfunctionmodal" class="modal">
+						  <div class="modal-content">
+							  <ul class="collapsible popout" data-collapsible="accordion">
+								  <li>
+									  <div class="collapsible-header" (click)="gettext('molecularfunction')"><i class="material-icons">assignment</i>Edit Content</div>
+										  <div class="collapsible-body">
+											  <h4>Molecular Function</h4>
+											  
+										  
+											  <div class="row">
+												  <form class="col s12">
+													  <div class="row">
+														  <div class="input-field col s12">
+															  <textarea id="molecularfunctiontextarea" class="materialize-textarea"  [(ngModel)]="molecularfunctionedit" [ngModelOptions]="{standalone: true}"></textarea> 
+														  </div>
+													  </div>
+												  </form>
+											  </div>
+
+											  <div class="modal-footer">
+												  <a class="modal-action modal-close waves-effect waves-green btn-flat">Cancel</a>
+												  <a class="modal-action modal-close waves-effect waves-green btn-flat" (click) = "savetext(molecularfunctionedit,'molecularfunction')">Save</a>
+											  </div>
+										  </div>
+								  </li>
+								  <!--<li>
+									  <div class="collapsible-header" (click)="getsources('molecularfunction')"><i class="material-icons">attach_file</i>Edit Sources</div>
+										  <div class="collapsible-body">
+										  <br>
+											  <div class="row">
+												  <form class="col s12">
+													  <div class="row">
+														  <div class="input-field col s6">
+															  <input placeholder="Type the text to be displayed" id="molecularfunctiontext1" type="text" [(ngModel)]="text1edit" [ngModelOptions]="{standalone: true}">
+														  </div>
+														  <div class="input-field col s6">
+															  <input placeholder="Paste the link" id="molecularfunctionlink1" type="text" [(ngModel)]="link1edit" [ngModelOptions]="{standalone: true}">
+														  </div>
+													  </div>
+												  </form>
+											  </div>
+
+											  <div class="row">
+												  <form class="col s12">
+													  <div class="row">
+														  <div class="input-field col s6">
+															  <input placeholder="Type the the to be displayed" id="molecularfunctiontext2" type="text" class="validate">
+														  </div>
+														  <div class="input-field col s6">
+														  <input placeholder="Paste the link" id="molecularfunctionlink2" type="text" class="validate">
+														  </div>
+													  </div>
+												  </form>
+											  </div>
+
+											  <div class="row">
+												  <form class="col s12">
+													  <div class="row">
+														  <div class="input-field col s6">
+															  <input placeholder="Type the the to be displayed" id="molecularfunctiontext3" type="text" class="validate">
+														  </div>
+														  <div class="input-field col s6">
+															  <input placeholder="Paste the link" id="molecularfunctionlink3" type="text" class="validate">
+														  </div>
+													  </div>
+												  </form>
+											  </div>
+									  
+											  <div class="modal-footer">
+												  <a class="modal-action modal-close waves-effect waves-green btn-flat">Cancel</a>
+												  <a class="modal-action modal-close waves-effect waves-green btn-flat" (click) = "savesources('molecularfunction')">Save</a>
+											  </div>
+										  </div>
+								  </li>	-->
+							  </ul>
+						  </div>
+					  </div>
+					  <!-- SOURCES -->
+					  <!--<ul class="collapsible" data-collapsible="accordion">
+						  <li>
+							  <div class="collapsible-header" (click)="displaysources('molecularfunction')"><i class="material-icons">filter_drama</i>Sources</div>
+							  <div class="collapsible-body" id="molecularfunctionlinks">
+								  <ul>
+									  <li id="molecularfunctionconverted_url1"></li>
+									  <li id="molecularfunctionconverted_url2"></li>
+									  <li id="molecularfunctionconverted_url3"></li>
+								  </ul>
+							  </div>
+						  </li>
+					  </ul>-->
+
+
+
+
+
+				  </li>
+			  </ul>
+				<ul class="collapsible" data-collapsible="accordion">
+				  <li id = "ppi">
+					  <div class="collapsible-header" style="position: relative;" (click)="getgraph()"><i class="material-icons">compare_arrows</i><b>PROTEIN-PROTEIN INTERACTION</b></div>
+					  <div class="collapsible-body" >
+						  <!-- Modal Structure -->
+						  <div id="modal1" class="modal">
+							  <div class="modal-content">
+								  <h4>Protein-Protein Interaction</h4>
+								  <p>Total number of interactors are more than 45. We display the combination of 45 interactors ordered
+								  from higher to lower evidence for better view. To view all the interactors please visit <a href="https://thebiogrid.org/">https://thebiogrid.org/</a> </p>
+							  </div>
+							  <div class="modal-footer">
+								  <a class="modal-action modal-close waves-effect waves-green btn-flat">OK</a>
+							  </div>
+						  </div>
+						  <a class='dropdown-button btn' data-beloworigin="true" data-activates='dropdown2' style="position: relative;">Select the number of evidence</a>
+						  <!-- Dropdown Structure -->
+						  <ul id='dropdown2' class='dropdown-content'>
+							  <div  *ngFor = "let each of evidencedropdown">		
+								  <li><a style="position: relative;" (click)="evidence(each)">{{each}}</a></li>
+							  </div>
+						  </ul>
+						  <div id="network">								
+							  <div id="cy"></div>
+						  </div>
+						  <br> 
+					  </div>
+				  </li>
+			   </ul>
+				<ul class="collapsible" data-collapsible="accordion">
+				  <li>
+					  <div class="collapsible-header"><i class="material-icons">filter_drama</i><b>GENE ONTOLOGY</b></div>
+					  <div class="collapsible-body">
+						  <div class = "row">
+							  <div class = "col l4">
+								  <p><b>MOLECULAR FUNCTION</b></p>
+								  <ul>
+									  <div *ngFor = "let gene of disease">
+										  <div *ngFor = "let each of gene.geneontologymolecular">
+												  <li>&bull;{{each}}</li>
+										  </div>	
+									  </div>
+								  </ul>
+							  </div>
+							  <div class = "col l4">
+								  <p><b>CELLULAR COMPONENT</b></p>
+								  <ul>
+									  <div *ngFor = "let gene of disease">
+										  <div *ngFor = "let each of gene.geneontologycellular">
+											  <li>&bull;{{each}}</li>
+										  </div>
+									  </div>
+								  </ul>
+							  </div>
+							  <div class = "col l4">
+								  <p><b>BIOLOGICAL PROCESS</b></p>
+								  <ul>
+									  <div *ngFor = "let gene of disease">
+										  <div *ngFor = "let each of gene.geneontologybiological">
+											  <li>&bull;{{each}}</li>
+										  </div>
+									  </div>
+								  </ul>
+							  </div>
+						  </div>
+					  </div>
+				  </li>
+			  </ul>			
+			</div>
+	  </div>
+  </div>
+	  
+
+
+
+
+
+   <div id="test-swipe-3" class="col l12 s12">
+		  <br>
+
+	  <div class = "row">
+			  <div class = "col l4 s12">
+				  </div>
+			  <div class = "col l4 s12">
+		  <a class="waves-effect waves-light btn modal-trigger" data-target="pathogenicmodal" style="display: flex; justify-content: center; ">ADD PATHOGENIC VARIANTS</a>
+		  </div>
+		  <div class = "col l4 s12">
+
+		  </div>
+		  </div>
+		  <br>
+
+		  <div id="pathogenicmodal" class="modal">
+			  <div class="modal-content">
+				  <h4>Add Pathogenic Variants</h4>
+				  <div class="row">
+					  <form class="col s12">
+						  <div class="row">
+							  <div class="input-field col s6">
+								  <p>Gene Symbol:</p>
+							  </div>
+							  <div class="input-field col s6">
+							  <!--<input placeholder="" name="pathogenicgene" type="text" class="validate" [(ngModel)]="pathogenicgene">-->
+							  {{displaygenediseasepair.displaygenesymbol}}
+							  </div>
+						  </div>
+					  </form>
+				  </div>
+				  <div class="row">
+					  <form class="col s12">
+						  <div class="row">
+							  <div class="input-field col s6">
+								  <p>Variation:</p>
+							  </div>
+							  <div class="input-field col s6">
+							  <input placeholder="" name="pathogenicvariation" type="text" class="validate" [(ngModel)]="pathogenicvariation">
+							  </div>
+						  </div>
+					  </form>
+				  </div>
+				  <div class="row">
+					  <form class="col s12">
+						  <div class="row">
+							  <div class="input-field col s6">
+								  <p>Type:</p>
+							  </div>
+							  <div class="input-field col s6">
+							  <input placeholder="" name="pathogenictype" type="text" class="validate" [(ngModel)] = "pathogenictype">
+							  </div>
+						  </div>
+					  </form>
+				  </div>
+				  <div class="row">
+					  <form class="col s12">
+						  <div class="row">
+							  <div class="input-field col s6">
+								  <p>Significance:</p>
+							  </div>
+							  <div class="input-field col s6">
+							  <input placeholder="" name="pathogenicsignificance" type="text" class="validate" [(ngModel)] = "pathogenicsignificance">
+							  </div>
+						  </div>
+					  </form>
+				  </div>
+				  <div class="row">
+					  <form class="col s12">
+						  <div class="row">
+							  <div class="input-field col s6">
+								  <p>SNP ID:</p> 
+								  <!-- https://www.ncbi.nlm.nih.gov/SNP/snp_ref.cgi?searchType=adhoc_search&type=rs&rs=193922926 -->
+							  </div>
+							  <div class="input-field col s6">
+							  <input placeholder="" name="pathogenicsnp" type="text" class="validate" [(ngModel)] = "pathogenicsnp">
+							  </div>
+						  </div>
+					  </form>
+				  </div>
+				  <div class="row">
+					  <form class="col s12">
+						  <div class="row">
+							  <div class="input-field col s6">
+								  <p>Assembly:</p>
+							  </div>
+							  <div class="input-field col s6">
+							  <input placeholder="" name="pathogenicassembly" type="text" class="validate" [(ngModel)]="pathogenicassembly">
+							  </div>
+						  </div>
+					  </form>
+				  </div>
+				  <div class="row">
+					  <form class="col s12">
+						  <div class="row">
+							  <div class="input-field col s6">
+								  <p>Location:</p>
+							  </div>
+							  <div class="input-field col s6">
+							  <input placeholder="" name="pathogenicloaction" type="text" class="validate" [(ngModel)]="pathogeniclocation">
+							  </div>
+						  </div>
+					  </form>
+				  </div>
+			  </div>
+			  <div class="modal-footer">
+				  <a class="modal-action modal-close waves-effect waves-green btn-flat" (click)="addPathogenic()">OK</a>
+					  <a class="modal-action modal-close waves-effect waves-green btn-flat ">Cancel</a>
+			  </div>
+			  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+		  <div class = "row">
+
+		  <div class = "col l12 s12">
+		  <table class="striped bordered centered responsive-table">
+	  <thead>
+		<tr>
+		   <!-- <th>ID</th>-->
+			<th>GENE</th>
+			<th>VARIATION</th>
+			<th>TYPE</th>
+			<th>SIGNIFICANCE</th>
+			<th>SNP ID</th>
+			<th>ASSEMBLY</th>
+			<th>LOCATION</th>
+		  <!--<th>EDIT</th>-->
+
+		</tr>
+	  </thead>
+
+	  <tbody *ngFor = "let gene of disease">
+			  
+				  
+			  
+			  
+			  <tr  *ngFor = "let each of gene.pathogenic">
+				  <td>
+					  {{each.pathogenic_gene_name}}
+				  </td>
+				  <td>
+					  {{each.pathogenic_variation}}
+				  </td>
+				  <td>
+					  {{each.pathogenic_type}}
+				  </td>
+				  <td>
+					  {{each.pathogenic_significance}}
+				  </td>
+				  <td>
+					  <!-- {{each.pathogenic_snp}} -->
+					  
+					  <p [innerHTML]="replaceContent(each.pathogenic_snp) | safeHtml"></p>
+				  </td>
+				  <td>
+					  {{each.pathogenic_assembly}}
+				  </td>
+				  <td>
+					  {{each.pathogenic_location}}
+				  </td>
+				  <!--<td>
+					  <a class="btn-floating btn-medium waves-effect waves-light red btn modal-trigger" style="float:right" data-target="molecularfunctionmodal" ><i class="material-icons">create</i></a>
+				  </td>-->
+				  
+			  </tr>
+		  
+	  </tbody>
+	</table>
+	
+	
+		
+		  
+	
+
+
+	
+
+	
+
+  
+	  </div>
+
+
+
+
+
+						  
+						  
+							  
+
+
+	  
+	  </div>
+	  
+	  </div>
+
+	  
+
+	  <div id="test-swipe-4" class="col l12 s12">
+		  
+		  <br>
+
+
+
+		  <div class = "row">
+				  <div class = "col l4 s12">
+					  </div>
+				  <div class = "col l4 s12">
+			  <a class="waves-effect waves-light btn modal-trigger" data-target="modifiermodal" style="display: flex; justify-content: center;">ADD MODIFIERS</a>
+			  </div>
+			  <div class = "col l4 s12">
+  
+			  </div>
+			</div>
+  
+  
+			<div id="modifiermodal" class="modal">
+				  <div class="modal-content">
+					<h4>Add Modifiers</h4>
+					<div class="row">
+						  <form class="col s12">
+							  <div class="row">
+								  <div class="input-field col s6">
+									  <p>Organism:</p>
+								  </div>
+								  <div class="input-field col s6">
+								  <input placeholder="" name="modifierorganism" type="text" class="validate" [(ngModel)]="modifierorganism">
+								  </div>
+							  </div>
+						  </form>
+					  </div>
+					  <div class="row">
+						  <form class="col s12">
+							  <div class="row">
+								  <div class="input-field col s6">
+									  <p>Modifier:</p>
+								  </div>
+								  <div class="input-field col s6">
+								  <input placeholder="" name="modifiermodifier" type="text" class="validate" [(ngModel)]="modifiermodifier">
+								  </div>
+							  </div>
+						  </form>
+					  </div>
+					  <div class="row">
+						  <form class="col s12">
+							  <div class="row">
+								  <div class="input-field col s6">
+									  <p>Modifier Effect:</p>
+								  </div>
+								  <div class="input-field col s6">
+								  <input placeholder="" name="modifiereffect" type="text" class="validate" [(ngModel)] = "modifiereffect">
+								  </div>
+							  </div>
+						  </form>
+					  </div>
+					  <div class="row">
+						  <form class="col s12">
+							  <div class="row">
+								  <div class="input-field col s6">
+									  <p>PMID:</p>
+								  </div>
+								  <div class="input-field col s6">
+								  <input placeholder="" name="modifierpmid" type="text" class="validate" [(ngModel)] = "modifierpmid">
+								  </div>
+							  </div>
+						  </form>
+					  </div>
+					  
+				  <div class="modal-footer">
+					  <a class="modal-action modal-close waves-effect waves-green btn-flat" (click)="addModifier()">OK</a>
+						<a class="modal-action modal-close waves-effect waves-green btn-flat ">Cancel</a>
+				  </div>
+				</div>
+			  </div>
+
+
+
+
+
+
+		  <br>
+		  
+		  <div class = "row">
+
+
+				  <div class = "col l12 s12">
+						  <table class="striped bordered centered responsive-table">
+					  <thead>
+						<tr>
+							<th>ORGANISM</th>
+							<th>MODIFIER</th>
+							<th>MODIFIER EFFECT</th>
+							<th>PMID</th>
+							
+			  
+						</tr>
+					  </thead>
+
+					  <tbody *ngFor = "let gene of disease">
+			  
+							  <tr *ngFor = "let each of gene.modifiers">
+								  
+								  <td>
+									  {{each.modifier_organism}}
+								  </td>
+								  <td>
+									  {{each.modifier}}
+								  </td>
+								  <td>
+									  {{each.modifier_effect}}
+								  </td>
+								  <td>
+									  {{each.modifier_pmid}}
+								  </td>
+							  
+							  </tr>
+						  
+					  </tbody>
+					</table>
+		  
+	  </div>
+	  </div>
+
+	  </div>
+
+
+
+
+
+	  <div id="test-swipe-5" class="col l12 s12">
+		  
+		  <br>
+		  
+		  
+		  
+		  <div class="row">
+   
+		  
+		  
+		  <div class = "container">
+		  <ul id="tabs-swipe1" class="tabs">
+		  
+			  <li class="tab col l6"><a  href="#swipe-100"><b>Mouse</b></a></li>
+			  <li class="tab col l6"><a  href="#swipe-2"><b>Fly</b></a></li>
+		  
+		  </ul>
+		  </div>
+		  
+		  
+		  
+		  <div id = "swipe-100">
+		  <div class = "row">
+	  
+		  <div class = "col l12 s12">
+		  <table class="striped bordered responsive-table centered">
+			  <thead>
+				<tr>
+					<th>Allele Symbol</th>
+					<th>Allele Name</th>
+					<th>Chr</th>
+					<th>Synonyms</th>
+					<th>Allele Type</th>
+					<th>Allele Attributes</th>
+					<th>Transmission</th>
+					<th>Abnormal Phenotypes 
+					Reported
+					</th>
+					<th>Human Disease Models</th>
+				</tr>
+			  </thead>
+			  <tbody *ngFor = "let gene of disease">
+				  
+				  <tr  *ngFor = "let each of gene.mouse">
+					  
+					  <td>
+						  <!-- {{each.mouse_allele_symbol}} -->
+						  <p [innerHTML]="replaceMouseContent(each.mouse_allele_symbol,each.mouse_allele_id) | safeHtml"></p>
+					  </td>
+					  <td>
+						  {{each.mouse_allele_name}}
+					  </td>
+					  <td>
+						  {{each.mouse_chromosome}}
+					  </td>
+					  <td >
+						  {{each.mouse_synonyms}}
+					  </td>
+					  <td >
+						  {{each.mouse_allele_type}}
+					  </td>
+					  <td >
+						  {{each.mouse_allele_attributes}}
+					  </td>
+					  <td >
+						  {{each.mouse_transmission}}
+					  </td>
+					  <td >
+						  {{each.mouse_abnormal_phenotypes}}
+					  </td>
+					  <td >
+						  {{each.mouse_human_disease_models}}
+					  </td>	
+				  
+				  </tr>
+			  
+			  </tbody>
+
+		  </table>
+	  </div>
+  </div>
+  </div>
+
+  <div id = "swipe-2">
+	  <div class = "row">
+  
+	  <div class = "col l12 s12">
+	  <table class="striped bordered responsive-table centered">
+		  <thead>
+			<tr>
+				<th>Allele Symbol</th>
+				<th>Phenotype</th>
+				
+			</tr>
+		  </thead>
+		  <tbody *ngFor = "let gene of disease">
+			  
+			  <tr  *ngFor = "let each of gene.fly">
+				  
+				  <td>
+					  <p [innerHTML]="replaceFlyContent(each.allele_symbol,each.allele_Fbal) | safeHtml"></p>
+				  </td>
+				  <td>
+					  {{each.phenotype}}	
+				  </td>
+			  
+			  </tr>
+		  
+		  </tbody>
+
+	  </table>
+  </div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="test-swipe-6" class="col l12 s12">
+  <div class = "row">
+
+	  <div class = "col l1">
+
+	  </div>
+	  <div class = "col l10 s12">
+
+  
+		  <ul class="collection with-header" >
+			  
+			  <li class="collection-item avatar" *ngFor="let gene of displayreferences">
+
+			  <i class="material-icons circle indigo">link</i>
+
+			  <p>{{gene}}</p>
+
+
+			  </li>
+		  </ul>
+
+		  <!--<table class="striped bordered responsive-table centered">
+			  <thead>
+			  
+			  </thead>
+			  <tbody *ngFor = "let gene of disease">
+				  
+				  <tr  *ngFor = "let each of gene.references">
+					  
+					  <td>
+						{{refcount++}}
+					  </td>
+					  
+				  
+				  </tr>
+			  
+			  </tbody>
+  
+		  </table>-->
+
+
+	  </div>
+
+	  <div class = "col l1">
+
+	  </div>
+
+  </div>
+</div>

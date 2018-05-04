@@ -1,0 +1,218 @@
+<!--The content below is only a placeholder and can be replaced.-->
+<head>
+  <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Varela+Round" rel="stylesheet">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+</head>
+ <div class="navbar-fixed" style="margin-left:-1%; color:#182A83;"> 
+<nav style="height:50px; width: 100%">
+    <div class="nav-wrapper">
+      <a href="#!" class="brand-logo center" style="color:#fff;font-weight:bold; font-size:150%;">Neurodegeneration Hub</a>
+      <ul class="right hide-on-med-and-down">
+        <li><a href="sass.html"><i class="material-icons">search</i></a></li>
+        <li><a href="badges.html"><i class="material-icons">view_module</i></a></li>
+        <li><a  style="float:right" *ngIf="!authService.loggedIn()" [routerLink]="['/login']" ><i class="material-icons">account_circle</i></a></li>
+        <li><a style="position: relative;" *ngIf="authService.loggedIn()"  (click) = "onLogoutClick()"><i class="material-icons">exit_to_app</i></a></li>
+      </ul>
+    </div>
+  </nav>
+</div>
+  <br>
+   <ul id="slide-out" class="side-nav fixed">
+    <li><div class="user-view" style="margin-left: 25px;margin-top:0%">
+            <i class="material-icons medium circle orange600">update</i>
+        </div>
+      <a class="subheader">Pending Requests</a></li>
+    <li><a class="waves-effect" href="#!" >Date 1</a></li>
+    <li><div class="divider"></div></li>
+    <li><a class="waves-effect" href="#!"><span class="new badge">2</span>Date 2 </a></li>
+    <li><div class="divider"></div></li>
+    <li><a class="waves-effect" href="#!">Date 3 </a></li>
+    
+    <li><a class="waves-effect" href="#!"></a></li>
+
+    <li><a class="subheader">Approved Requests</a></li>
+    <li><a class="waves-effect" href="#!"><span class="new badge">4</span>Date 1</a></li>
+    <li><div class="divider"></div></li>
+    <li><a class="waves-effect" href="#!">Date 2 </a></li>
+    <li><div class="divider"></div></li>
+    <li><a class="waves-effect" href="#!">Date 3 </a></li>
+    
+  </ul>
+  <a href="#" data-activates="slide-out" class="button-collapse"><i class="material-icons">menu</i></a>
+
+<div class="maincontent">
+    <ul class="collection">
+        <li class="collection-item avatar">
+          <i class="material-icons circle orange600 ">assignment_ind</i>
+          <span class="title" style="color:#85080B"><b>User 1 </b></span>
+          <a class="btn-floating btn-medium waves-effect waves-light red btn modal-trigger" data-target="openinfo" style="float:right"><i class="material-icons">thumbs_up_down</i></a>
+          
+            <br>
+            <br>
+         
+          <ul class="collapsible popout" data-collapsible="expandable">
+              <li>
+                <div class="collapsible-header" style="color:#182A83"><i class="material-icons">event_note</i>Session 1<h6 style="float:right">(Timestamp)</h6></div>
+                <div class="collapsible-body"><span>
+                    <input class="with-gap" name="selectpair" type="radio"  id="u1" />
+                    <label for="u1" style="color:black"> Gene, Disease</label><br>
+
+                    <input class="with-gap" name="selectpair" type="radio"  id="u12" />
+                    <label for="u12" style="color:black"> Gene, Disease</label>
+                </span></div>
+              </li>
+              <li>
+                  <div class="collapsible-header" style="color:#182A83"><i class="material-icons">event_note</i>Session 2<h6 style="float:right">(Timestamp)</h6></div>
+                  <div class="collapsible-body"><span>
+                      <input class="with-gap" name="selectpair" type="radio"  id="u13" />
+                      <label for="u13" style="color:black">Gene, Disease</label><br>
+  
+                      <input class="with-gap" name="selectpair" type="radio"  id="u14" />
+                      <label for="u14" style="color:black">Gene, Disease</label>
+                  </span></div>
+                </li>
+            </ul>
+        </li>
+        <li class="collection-item avatar">
+          <i class="material-icons circle">assignment_ind</i>
+          <span class="title" style="color:#85080B"><b>User 2</b></span>
+          <a class="btn-floating btn-medium waves-effect waves-light red btn modal-trigger" data-target="openinfo" style="float:right"><i class="material-icons">thumbs_up_down</i></a>
+          
+            <br>
+            <br>
+          <ul class="collapsible popout" data-collapsible="expandable">
+              <li>
+                <div class="collapsible-header" style="color:#182A83"><i class="material-icons">event_note</i>Session 1<h6 style="float:right">(Timestamp)</h6></div>
+                <div class="collapsible-body"><span>
+                    <input class="with-gap" name="selectpair" type="radio"  id="u21" data-target="sessioninfo"/>
+                    <label for="u21" style="color:black">Gene, Disease</label><br>
+
+                    <input class="with-gap" name="selectpair" type="radio"  id="u22" />
+                    <label for="u22" style="color:black">Gene, Disease</label>
+                </span></div>
+              </li>
+              <li>
+                  <div class="collapsible-header" style="color:#182A83"><i class="material-icons">event_note</i>Session 2<h6 style="float:right">(Timestamp)</h6></div>
+                  <div class="collapsible-body"><span>
+                      <input class="with-gap" name="selectpair" type="radio"  id="u23" data-target="sessioninfo"/>
+                      <label for="u23" style="color:black">Gene, Disease</label><br>
+  
+                      <input class="with-gap" name="selectpair" type="radio"  id="u24" />
+                      <label for="u24" style="color:black">Gene, Disease</label>
+                  </span></div>
+                </li>
+            </ul>
+        </li>
+        <li class="collection-item avatar">
+          <i class="material-icons circle">assignment_ind</i>
+          <span class="title" style="color:#85080B"><b>User 3</b> </span>
+          <a class="btn-floating btn-medium waves-effect waves-light red btn modal-trigger" style="float:right" data-target="openinfo"><i class="material-icons">thumbs_up_down</i></a>
+          
+            <br>
+            <br>
+          
+          <ul class="collapsible popout" data-collapsible="expandable">
+              <li>
+                <div class="collapsible-header" style="color:#182A83"><i class="material-icons">event_note</i>Session 1<h6 style="float:right">(Timestamp)</h6></div>
+                <div class="collapsible-body"><span>
+                    <input class="with-gap" name="selectpair" type="radio"  id="u31" />
+                    <label for="u31" style="color:black">Gene, Disease</label><br>
+
+                    <input class="with-gap" name="selectpair" type="radio"  id="u32" />
+                    <label for="u32" style="color:black">Gene, Disease</label>
+                </span></div>
+              </li>
+              <li>
+                  <div class="collapsible-header" style="color:#182A83"><i class="material-icons">event_note</i>Session 2<h6 style="float:right">(Timestamp)</h6></div>
+                  <div class="collapsible-body"><span>
+                      <input class="with-gap" name="selectpair" type="radio"  id="u33" data-target="sessioninfo"/>
+                      <label for="u33" style="color:black">Gene, Disease</label><br>
+  
+                      <input class="with-gap" name="selectpair" type="radio"  id="u34" />
+                      <label for="u34" style="color:black">Gene, Disease</label>
+                  </span></div>
+                </li>
+            </ul>
+        </li>
+        <li class="collection-item avatar">
+          <i class="material-icons circle">assignment_ind</i>
+          <span class="title" style="color:#85080B"><b>User 4</b> </span>
+          <a class="btn-floating btn-medium waves-effect waves-light red btn modal-trigger" data-target="openinfo" style="float:right"><i class="material-icons">thumbs_up_down</i></a>
+            <br>
+            <br>
+          
+          <ul class="collapsible popout" data-collapsible="expandable">
+              <li>
+                <div class="collapsible-header" style="color:#182A83"><i class="material-icons">event_note</i>Session 1<h6 style="float:right">(Timestamp)</h6></div>
+                <div class="collapsible-body"><span>
+                    <input class="with-gap" name="selectpair" type="radio"  id="u41" />
+                    <label for="u41" style="color:black">Gene, Disease</label><br>
+
+                    <input class="with-gap" name="selectpair" type="radio"  id="u42" />
+                    <label for="u42" style="color:black">Gene, Disease</label>
+                </span></div>
+              </li>
+              <li>
+                  <div class="collapsible-header" style="color:#182A83"><i class="material-icons">event_note</i>Session 2<h6 style="float:right">(Timestamp)</h6></div>
+                  <div class="collapsible-body"><span>
+                      <input class="with-gap" name="selectpair" type="radio"  id="u43" />
+                      <label for="u43" style="color:black">Gene, Disease</label><br>
+  
+                      <input class="with-gap" name="selectpair" type="radio"  id="u44" />
+                      <label for="u44" style="color:black">Gene, Disease</label>
+                  </span></div>
+                </li>
+            </ul>
+        </li>
+      </ul>
+</div>
+<div id="openinfo" class="modal">
+    <div class="modal-content">
+        <nav>
+            <div class="nav-wrapper">
+              <a href="#!" class="brand-logo center" style="color:#fff; font-size:100%;">Update Info</a>
+              </div>
+              </nav><br>
+        <form>
+  
+            <div class="form-group">
+                <label style="color:black;font-size:16px">Gene Name</label>
+                    <input type="text" class="form-control" id="gene_name" />
+                  </div>
+                
+                  <div class="form-group">
+                <label style="color:black;font-size:16px">Disease Name</label>
+                    <input type="text" class="form-control" id="disease_name" />
+                  </div>
+                
+                  <div class="form-group">
+                <label style="color:black;font-size:16px">Edited Field</label>
+                    <input type="text"  class="form-control" id="edited_field" />      
+                  </div>
+                
+                  <div class="form-group">
+                <label style="color:black;font-size:16px"> Edited Content</label>
+                    <textarea  class="materialize-textarea" id="edited_content" ></textarea>
+                  </div>
+            
+          </form>
+
+    </div>
+    <div class="modal-footer">
+      
+        <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Reject</a>
+      <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Update</a>
+    </div>
+  </div>
+    
+
+      
+  
+  
+
+
+
+
+
+
